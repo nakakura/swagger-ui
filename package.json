@@ -91,7 +91,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.12.1",
+    "swagger-client": "^3.12.2",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
@@ -140,7 +140,7 @@
     "http-server": "^0.12.3",
     "husky": "=4.3.8",
     "ignore-assets-webpack-plugin": "^2.0.1",
-    "inspectpack": "=4.5.2",
+    "inspectpack": "=4.6.1",
     "jest": "=26.6.3",
     "jsdom": "=16.4.0",
     "json-loader": "^0.5.7",
