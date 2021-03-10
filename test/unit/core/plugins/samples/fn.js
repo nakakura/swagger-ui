@@ -607,6 +607,169 @@ describe("sampleFromSchema", () => {
 
     expect(sampleFromSchema(definition, {}, expected)).toEqual(expected)
   })
+
+  it("should merge properties with anyOf", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            bar: {
+              type: "boolean"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string",
+      bar: true
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge array item properties with anyOf", () => {
+    const definition = {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string"
+          }
+        },
+        anyOf: [
+          {
+            type: "object",
+            properties: {
+              bar: {
+                type: "boolean"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+    const expected = [
+      {
+        foo: "string",
+        bar: true
+      }
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge properties with oneOf", () => {
+    const definition = {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string"
+        }
+      },
+      oneOf: [
+        {
+          type: "object",
+          properties: {
+            bar: {
+              type: "boolean"
+            }
+          }
+        }
+      ]
+    }
+
+    const expected = {
+      foo: "string",
+      bar: true
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should merge array item properties with oneOf", () => {
+    const definition = {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string"
+          }
+        },
+        oneOf: [
+          {
+            type: "object",
+            properties: {
+              bar: {
+                type: "boolean"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+    const expected = [
+      {
+        foo: "string",
+        bar: true
+      }
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should lift items with anyOf", () => {
+    const definition = {
+      type: "array",
+      anyOf: [
+        {
+          type: "array",
+          items: {
+            type: "boolean"
+          }
+        }
+      ]
+    }
+
+    const expected = [
+      true
+    ]
+
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("should lift items with oneOf", () => {
+    const definition = {
+      type: "array",
+      oneOf: [
+        {
+          type: "array",
+          items: {
+            type: "boolean"
+          }
+        }
+      ]
+    }
+
+    const expected = [
+      true
+    ]
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
 })
 
 describe("createXMLExample", function () {
@@ -1610,6 +1773,25 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, {}, expected)).toEqual(expected)
+    })
+    it("should use exampleOverride for attr too", () => {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens test=\"probe\">\n</aliens>"
+      let definition = {
+        type: "object",
+        properties: {
+          test: {
+            type: "string",
+            xml: {
+              attribute: true
+            }
+          }
+        },
+        xml: {
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition, {}, { test: "probe" })).toEqual(expected)
     })
   })
 })
